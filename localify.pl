@@ -20,10 +20,25 @@ my $ua = LWP::UserAgent->new;
 my %opts = (
     savedir => 'gfonts'
 );
-GetOptions (\%opts, 'savedir=s', 'help|h');
+GetOptions (\%opts, 'savedir=s', 'help|h') or &usage;
+&usage if $opts{help} or ! @ARGV;
 
 localify ($_) for (@ARGV);
 #localify("http://fonts.useso.com/css?family=Open+Sans:300,400,400italic,600,600italic,700,700italic");
+
+sub usage {
+print<<EOF
+Usage:
+    $0 http://fonts.useso.com/css?family=Open+Sans:300,400,400italic,600,600italic,700,700italic
+
+Options:
+    --savedir directory_name
+              specify output directory name, defaults to gfonts
+
+EOF
+;
+    exit;
+}
 
 sub localify {
     my ($url) = @_;
